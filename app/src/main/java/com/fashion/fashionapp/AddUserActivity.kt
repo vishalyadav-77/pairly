@@ -1,5 +1,6 @@
 package com.fashion.fashionapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -77,23 +78,67 @@ class AddUserActivity : AppCompatActivity() {
                 "${otherUser.uid}_${currentUser.uid}"
             }
 
-            val chat = hashMapOf(
-                "id" to chatId,
-                "participants" to listOf(currentUser.uid, otherUser.uid),
-                "lastMessage" to "",
-                "lastMessageTime" to System.currentTimeMillis(),
-                "lastMessageSenderId" to ""
-            )
-
+            // First check if chat already exists
             firestore.collection("chats")
                 .document(chatId)
-                .set(chat)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Chat created successfully", Toast.LENGTH_SHORT).show()
-                    finish()
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        Toast.makeText(this, "Chat already exists", Toast.LENGTH_SHORT).show()
+                        // Start ChatActivity for existing chat
+                        val intent = Intent(this, ChatActivity::class.java)
+                        intent.putExtra("chatId", chatId)
+                        intent.putExtra("otherUserId", otherUser.uid)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Create new chat
+                        val chat = hashMapOf(
+                            "id" to chatId,
+                            "participants" to listOf(currentUser.uid, otherUser.uid),
+                            "lastMessage" to "Chat started",
+                            "lastMessageTime" to System.currentTimeMillis(),
+                            "lastMessageSenderId" to currentUser.uid
+                        )
+
+                        // Create chat document
+                        firestore.collection("chats")
+                            .document(chatId)
+                            .set(chat)
+                            .addOnSuccessListener {
+                                // Create initial message
+                                val initialMessage = hashMapOf(
+                                    "senderId" to currentUser.uid,
+                                    "receiverId" to otherUser.uid,
+                                    "message" to "Chat started",
+                                    "timestamp" to System.currentTimeMillis(),
+                                    "isRead" to false
+                                )
+
+                                firestore.collection("chats")
+                                    .document(chatId)
+                                    .collection("messages")
+                                    .add(initialMessage)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(this, "Chat created successfully", Toast.LENGTH_SHORT).show()
+                                        // Start ChatActivity
+                                        val intent = Intent(this, ChatActivity::class.java)
+                                        intent.putExtra("chatId", chatId)
+                                        intent.putExtra("otherUserId", otherUser.uid)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(this, "Error creating initial message: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "Error creating chat: ${e.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error checking chat: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }

@@ -2,6 +2,8 @@ package com.fashion.fashionapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +52,10 @@ class ChatListActivity : AppCompatActivity() {
         addUserButton.setOnClickListener {
             startActivity(Intent(this, AddUserActivity::class.java))
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         loadChats()
     }
 
@@ -62,15 +67,33 @@ class ChatListActivity : AppCompatActivity() {
                 .orderBy("lastMessageTime", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, e ->
                     if (e != null) {
+                        Toast.makeText(this, "Error loading chats: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Log.d("ChatDebug","Error loading chats: ${e.message}")
                         return@addSnapshotListener
                     }
 
-                    val chats = snapshot?.documents?.mapNotNull { doc ->
-                        doc.toObject(Chat::class.java)?.copy(id = doc.id)
-                    } ?: listOf()
+                    if (snapshot == null || snapshot.isEmpty) {
+                        Toast.makeText(this, "No chats found", Toast.LENGTH_SHORT).show()
+                        return@addSnapshotListener
+                    }
+
+                    val chats = snapshot.documents.mapNotNull { doc ->
+                        try {
+                            doc.toObject(Chat::class.java)?.copy(id = doc.id)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+
+                    if (chats.isEmpty()) {
+                        Toast.makeText(this, "No chats found", Toast.LENGTH_SHORT).show()
+                    }
 
                     chatAdapter.submitList(chats)
                 }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 }
@@ -111,17 +134,26 @@ class ChatAdapter(private val onChatClick: (Chat) -> Unit) :
                     .document(otherUserId)
                     .get()
                     .addOnSuccessListener { document ->
-                        val user = document.toObject(User::class.java)
-                        usernameText.text = user?.username ?: "Unknown User"
-                        lastMessageText.text = chat.lastMessage
-                        
-                        // Load profile image if available
-                        user?.profileImageUrl?.let { url ->
-                            Glide.with(itemView.context)
-                                .load(url)
-                                .circleCrop()
-                                .into(profileImage)
+                        if (document.exists()) {
+                            val user = document.toObject(User::class.java)
+                            usernameText.text = user?.username ?: "Unknown User"
+                            lastMessageText.text = chat.lastMessage
+                            
+                            // Load profile image if available
+                            user?.profileImageUrl?.let { url ->
+                                Glide.with(itemView.context)
+                                    .load(url)
+                                    .circleCrop()
+                                    .into(profileImage)
+                            }
+                        } else {
+                            usernameText.text = "Unknown User"
+                            lastMessageText.text = chat.lastMessage
                         }
+                    }
+                    .addOnFailureListener { e ->
+                        usernameText.text = "Error loading user"
+                        lastMessageText.text = chat.lastMessage
                     }
             }
 
