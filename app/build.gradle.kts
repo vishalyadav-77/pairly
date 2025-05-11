@@ -50,9 +50,9 @@ dependencies {
     implementation ("com.google.firebase:firebase-bom:32.7.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.0")
     implementation("com.google.firebase:firebase-database-ktx:20.3.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.navigation:navigation-compose:2.7.2")
+//    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+//    implementation("androidx.navigation:navigation-compose:2.7.2")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.github.bumptech.glide:glide:4.16.0")
 }
-apply(plugin = "com.google.gms.google-services")
+//apply(plugin = "com.google.gms.google-services")
