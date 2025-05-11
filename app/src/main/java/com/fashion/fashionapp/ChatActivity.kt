@@ -1,5 +1,6 @@
 package com.fashion.fashionapp
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messagesRecyclerView: RecyclerView
     private lateinit var messageInput: TextInputEditText
     private lateinit var sendButton: ImageButton
+    private lateinit var backButton: ImageButton
     private lateinit var toolbarTitle: TextView
     private lateinit var messageAdapter: MessageAdapter
     private var chatId: String = ""
@@ -43,6 +45,7 @@ class ChatActivity : AppCompatActivity() {
         messagesRecyclerView = findViewById(R.id.messagesRecyclerView)
         messageInput = findViewById(R.id.messageInput)
         sendButton = findViewById(R.id.sendButton)
+        backButton = findViewById(R.id.backButton)
         toolbarTitle = findViewById(R.id.toolbarTitle)
 
         messageAdapter = MessageAdapter()
@@ -157,6 +160,11 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() 
 
             messageContainer.layoutParams = (messageContainer.layoutParams as FrameLayout.LayoutParams).apply {
                 gravity = if (isCurrentUser) android.view.Gravity.END else android.view.Gravity.START
+            }
+            if (isCurrentUser) {
+                messageContainer.setBackgroundResource(R.drawable.bg_current_user)
+                messageText.setTextColor(Color.WHITE)
+                messageTime.setTextColor(Color.WHITE)
             }
 
             messageText.text = message.message

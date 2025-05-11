@@ -6,33 +6,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="15dp"
+    android:padding="24dp"
+    android:background="@android:color/white"
     tools:context=".LoginActivity">
 
-    <EditText
-        android:id="@+id/editTextEmail"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:layout_marginTop="250dp"/>
+        android:text="Pairly"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:gravity="center"/>
 
-    <EditText
-        android:id="@+id/editTextPassword"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:text="LOGIN"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"
+        android:gravity="left"/>
 
-    <Button
-        android:id="@+id/buttonLogin"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
-    <Button
-        android:id="@+id/buttonSignUpRedirect"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Don't have an account? Sign Up" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:padding="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:padding="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:inputType="textPassword"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:padding="12dp"
+            android:backgroundTint="#87CEEB"
+            android:elevation="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/buttonSignUpRedirect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Sign Up"
+            android:backgroundTint="#87CEEB"
+            android:elevation="8dp"
+            android:padding="12dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

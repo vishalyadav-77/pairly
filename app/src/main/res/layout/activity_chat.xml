@@ -8,11 +8,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="#87CEEB"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/arrowback"/>
+
         <TextView
+            android:layout_marginLeft="10dp"
             android:id="@+id/toolbarTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,10 +34,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:padding="8dp">
 
@@ -51,9 +58,11 @@
         <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_height="57dp"
+            android:scaleType="fitCenter"
+
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_send"
-            android:contentDescription="Send Message" />
+            android:contentDescription="Send Message"
+            android:src="@android:drawable/ic_menu_send" />
     </LinearLayout>
 </LinearLayout> 

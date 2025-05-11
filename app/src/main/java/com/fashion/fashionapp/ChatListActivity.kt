@@ -143,6 +143,7 @@ class ChatAdapter(private val onChatClick: (Chat) -> Unit) :
                             user?.profileImageUrl?.let { url ->
                                 Glide.with(itemView.context)
                                     .load(url)
+                                    .placeholder(R.drawable.account_icon)
                                     .circleCrop()
                                     .into(profileImage)
                             }

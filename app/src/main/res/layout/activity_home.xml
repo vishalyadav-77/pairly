@@ -4,26 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:orientation="vertical"
-    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@android:color/white"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:layout_marginTop="250dp"
-        android:id="@+id/welcomeText"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:text="welcome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.364" />
-    <Button
-        android:text="Log Out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonLogOut"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pairly"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Pairly"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="220dp"/>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="40dp">
+
+            <Button
+                android:id="@+id/chatButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CHAT"
+                android:padding="12dp"
+                android:visibility="visible"
+                android:backgroundTint="#87CEEB"
+                android:elevation="8dp"
+                android:layout_marginBottom="5dp"/>
+
+            <Button
+                android:id="@+id/playButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PLAY"
+                android:padding="12dp"
+                android:backgroundTint="#87CEEB"
+                android:elevation="8dp"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/buttonLogOut"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="LOG OUT"
+                android:backgroundTint="#87CEEB"
+                android:elevation="8dp"
+                android:padding="12dp"/>
+        </LinearLayout>
 
 </LinearLayout>

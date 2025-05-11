@@ -1,9 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.FashionApp" parent="Theme.Material3.DayNight.NoActionBar">
+<!--    <style name="Base.Theme.FashionApp" parent="Theme.Material3.DayNight.NoActionBar">-->
+    <style name="Theme.FashionApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">#87CEEB</item>
+
     </style>
 
-    <style name="Theme.FashionApp" parent="Base.Theme.FashionApp" />
+<!--    <style name="Theme.FashionApp" parent="Base.Theme.FashionApp" />-->
 </resources>
