@@ -2,13 +2,11 @@ package com.fashion.fashionapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.*
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.graphics.Color
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -17,26 +15,38 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var firestore: FirebaseFirestore
     private lateinit var welcomeText: TextView
     private lateinit var logoutButton: Button
+    private lateinit var playButton: Button
+    private lateinit var chatButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        
+        // Set status bar color to white
+        window.statusBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and 
+            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            
         setContentView(R.layout.activity_home)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
         
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         welcomeText = findViewById(R.id.welcomeText)
+        chatButton = findViewById(R.id.chatButton)
+        playButton = findViewById(R.id.playButton)
+        logoutButton = findViewById(R.id.buttonLogOut)
 
-        val logoutButton: Button = findViewById(R.id.buttonLogOut)
         logoutButton.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
+        }
+
+        chatButton.setOnClickListener {
+            startActivity(Intent(this, ChatListActivity::class.java))
+        }
+
+        playButton.setOnClickListener {
+            startActivity(Intent(this, GamesListActivity::class.java))
         }
 
         checkUserProfile()
@@ -50,9 +60,8 @@ class HomeActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        // User profile exists, go to chat list
-                        startActivity(Intent(this, ChatListActivity::class.java))
-                        finish()
+                        // User profile exists, chat button visible
+                        chatButton.visibility = View.VISIBLE
                     } else {
                         // User profile doesn't exist, go to profile setup
                         startActivity(Intent(this, UserProfileActivity::class.java))
@@ -64,5 +73,10 @@ class HomeActivity : AppCompatActivity() {
                     welcomeText.text = "Error: ${e.message}"
                 }
         }
+    }
+
+    override fun onBackPressed() {
+        // Exit the app when back is pressed in HomeActivity
+        finishAffinity()
     }
 }

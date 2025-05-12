@@ -1,17 +1,15 @@
 package com.fashion.fashionapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import java.util.concurrent.TimeUnit
+import android.view.WindowManager
+import android.graphics.Color
+import android.view.View
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -22,19 +20,27 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        
+        // Set status bar color to white
+        window.statusBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and 
+            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+        
         setContentView(R.layout.activity_signup)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        
         auth = FirebaseAuth.getInstance()
+        
+        // Check if user is already logged in
+        if (auth.currentUser != null) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+            return
+        }
+        
         emailEditText = findViewById(R.id.editTextEmail)
         passwordEditText = findViewById(R.id.editTextPassword)
         signUpButton = findViewById(R.id.buttonSignUp)
         loginRedirectButton = findViewById(R.id.buttonLoginRedirect)
-        val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
         signUpButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
@@ -50,8 +56,8 @@ class SignUpActivity : AppCompatActivity() {
         loginRedirectButton.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
-
     }
+
     fun signUpUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -63,6 +69,5 @@ class SignUpActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-
     }
 }
