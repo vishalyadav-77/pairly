@@ -29,7 +29,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var sendButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var toolbarTitle: TextView
-    private lateinit var playButton: TextView
+    private lateinit var playButton: ImageButton
     private lateinit var messageAdapter: MessageAdapter
     private var chatId: String = ""
     private var otherUserId: String = ""
@@ -103,7 +103,7 @@ class ChatActivity : AppCompatActivity() {
                 } ?: listOf()
 
                 messageAdapter.submitList(messages)
-                messagesRecyclerView.scrollToPosition(messages.size - 1)
+                messagesRecyclerView.scrollToPosition(messages.size - 1) // Scroll to the newest message
             }
     }
 
@@ -175,6 +175,10 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() 
                 messageContainer.setBackgroundResource(R.drawable.bg_current_user)
                 messageText.setTextColor(Color.WHITE)
                 messageTime.setTextColor(Color.WHITE)
+            } else {
+                messageContainer.setBackgroundResource(R.drawable.bg_other_user)
+                messageText.setTextColor(Color.BLACK)
+                messageTime.setTextColor(Color.BLACK)
             }
 
             messageText.text = message.message
