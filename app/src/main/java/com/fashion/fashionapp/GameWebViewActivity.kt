@@ -5,6 +5,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +15,7 @@ class GameWebViewActivity : AppCompatActivity() {
     private lateinit var gameWebView: WebView
     private lateinit var toolbarTitle: TextView
     private lateinit var chatFragmentContainer: FrameLayout
-    private lateinit var openChatFab: ImageView
+    private lateinit var openChatFab: ImageButton
 
     private var isChatVisible = false
 
