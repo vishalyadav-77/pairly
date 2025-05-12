@@ -1,5 +1,6 @@
 package com.fashion.fashionapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var sendButton: ImageButton
     private lateinit var backButton: ImageButton
     private lateinit var toolbarTitle: TextView
+    private lateinit var playButton: TextView
     private lateinit var messageAdapter: MessageAdapter
     private var chatId: String = ""
     private var otherUserId: String = ""
@@ -47,6 +49,7 @@ class ChatActivity : AppCompatActivity() {
         sendButton = findViewById(R.id.sendButton)
         backButton = findViewById(R.id.backButton)
         toolbarTitle = findViewById(R.id.toolbarTitle)
+        playButton = findViewById(R.id.playGameButton)
 
         messageAdapter = MessageAdapter()
         messagesRecyclerView.apply {
@@ -65,6 +68,13 @@ class ChatActivity : AppCompatActivity() {
                 sendMessage(messageText)
                 messageInput.text?.clear()
             }
+        }
+        playButton.setOnClickListener {
+            val intent = Intent(this, GamesListActivity::class.java).apply {
+                putExtra("chatId", chatId)
+                putExtra("otherUserId", otherUserId)
+            }
+            startActivity(intent)
         }
     }
 

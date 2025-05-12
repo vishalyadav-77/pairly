@@ -41,6 +41,12 @@
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
+        <activity
+            android:name=".GamesListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GameWebViewActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
